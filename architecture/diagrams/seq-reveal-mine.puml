@@ -1,0 +1,25 @@
+@startuml seq-reveal-mine
+
+skinparam backgroundColor #FFFFFF
+skinparam sequenceMessageAlign center
+skinparam participantPadding 20
+skinparam boxPadding 10
+
+title Minesweeper - Reveal Mine (Game Over)
+
+actor Player
+participant "User Interface" as UI
+participant "Game Logic" as Game
+participant "Board Management" as Board
+
+Player -> UI : Left-clicks cell (row, col)
+UI -> Game : reveal_cell(row, col)
+Game -> Board : get_cell(row, col)
+Board --> Game : cell data (mine)
+Game -> Board : reveal_all_mines()
+Board --> Game : all mine positions
+Game -> Game : set_state(LOST)
+Game --> UI : game state (LOST, all mines revealed)
+UI --> Player : Displays all mines, game over message
+
+@enduml

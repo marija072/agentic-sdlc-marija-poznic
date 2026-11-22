@@ -26,6 +26,10 @@ The application will be organized into three main components:
 - Game Logic: handles player moves and game rules.
 - User Interface: displays the board and handles user interaction.
 
+The application will hold all game state in memory for the duration
+of a session. No persistence layer, database, or file storage is
+required.
+
 ### Rationale
 Python is suitable for implementing and testing the game logic
 because its syntax is relatively simple and readable.
@@ -37,6 +41,9 @@ desktop application.
 Separating the application into components will make the code
 easier to understand, test, and maintain.
 
+Holding state in memory is sufficient for a single-player game
+with no requirement to save or resume sessions.
+
 ### Consequences
 
 **Positive:**
@@ -44,9 +51,18 @@ easier to understand, test, and maintain.
 - The game logic can be tested independently of the interface.
 - The architecture remains relatively simple.
 - The project provides a clear example of component separation.
+- No database or file system dependency is introduced.
 
 **Negative:**
 - The application will primarily target desktop environments.
 - Tkinter offers fewer advanced interface features than some
   other GUI frameworks.
 - The graphical interface requires a suitable desktop environment.
+- Game state is not preserved between sessions.
+
+---
+
+> This decision is elaborated across the approved architecture
+> documentation: technology choice in Chapter 4, component
+> responsibilities in Chapter 5, and scope and persistence
+> constraints in Chapter 2 (SC-3, SC-4).
