@@ -1,0 +1,17 @@
+@startuml c4-container
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+skinparam backgroundColor #FFFFFF
+
+title Minesweeper - Container Diagram
+
+Person(player, "Player", "Person who plays Minesweeper.")
+
+System_Boundary(minesweeper, "Minesweeper System") {
+  Container(desktop_app, "Desktop Application", "Python, Tkinter", "Runs the game and provides the graphical interface. Contains all game logic and board management.")
+}
+
+Rel(player, desktop_app, "Interacts with", "Mouse clicks, keyboard")
+
+@enduml

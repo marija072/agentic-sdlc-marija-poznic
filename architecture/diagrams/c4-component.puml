@@ -1,0 +1,18 @@
+@startuml c4-component
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+skinparam backgroundColor #FFFFFF
+
+title Minesweeper - Component Diagram
+
+Container_Boundary(desktop_app, "Minesweeper Desktop Application") {
+  Component(ui, "User Interface", "Python, Tkinter", "Displays the board and handles player interaction. Translates mouse events into game actions.")
+  Component(game, "Game Logic", "Python", "Processes player moves, applies game rules, manages reveal and flag actions, and determines win or loss outcome.")
+  Component(board, "Board Management", "Python", "Maintains the grid, records mine positions, and calculates adjacent mine counts for each safe cell.")
+}
+
+Rel(ui, game, "Sends player actions to")
+Rel(game, board, "Reads and updates")
+
+@enduml

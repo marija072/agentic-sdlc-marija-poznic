@@ -1,0 +1,32 @@
+@startuml seq-flag-cell
+
+skinparam backgroundColor #FFFFFF
+skinparam sequenceMessageAlign center
+skinparam participantPadding 20
+skinparam boxPadding 10
+
+title Minesweeper - Flag or Unflag a Cell
+
+actor Player
+participant "User Interface" as UI
+participant "Game Logic" as Game
+participant "Board Management" as Board
+
+Player -> UI : Right-clicks cell (row, col)
+UI -> Game : toggle_flag(row, col)
+Game -> Board : get_cell(row, col)
+Board --> Game : cell data (hidden, not revealed)
+
+alt cell is not flagged
+    Game -> Board : mark_flagged(row, col)
+    Board --> Game : cell flagged
+    Game --> UI : updated game state
+    UI --> Player : Displays flag on cell
+else cell is already flagged
+    Game -> Board : clear_flag(row, col)
+    Board --> Game : flag removed
+    Game --> UI : updated game state
+    UI --> Player : Removes flag from cell
+end
+
+@enduml

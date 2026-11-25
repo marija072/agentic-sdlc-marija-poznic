@@ -1,0 +1,24 @@
+@startuml seq-new-game
+
+skinparam backgroundColor #FFFFFF
+skinparam sequenceMessageAlign center
+skinparam participantPadding 20
+skinparam boxPadding 10
+
+title Minesweeper - Start New Game
+
+actor Player
+participant "User Interface" as UI
+participant "Game Logic" as Game
+participant "Board Management" as Board
+
+Player -> UI : Launches application\nor clicks New Game
+UI -> Game : new_game(rows, cols, mines)
+Game -> Board : create_board(rows, cols, mines)
+Board -> Board : place_mines_randomly()
+Board -> Board : calculate_adjacent_counts()
+Board --> Game : board ready
+Game --> UI : game state (all cells hidden)
+UI --> Player : Displays hidden grid
+
+@enduml

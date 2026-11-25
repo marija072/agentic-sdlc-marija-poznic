@@ -1,0 +1,45 @@
+@startuml seq-reveal-safe
+
+skinparam backgroundColor #FFFFFF
+skinparam sequenceMessageAlign center
+skinparam participantPadding 20
+skinparam boxPadding 10
+
+title Minesweeper - Reveal Safe Cell (with cascade)
+
+actor Player
+participant "User Interface" as UI
+participant "Game Logic" as Game
+participant "Board Management" as Board
+
+Player -> UI : Left-clicks cell (row, col)
+UI -> Game : reveal_cell(row, col)
+Game -> Board : get_cell(row, col)
+Board --> Game : cell data (not a mine)
+
+alt adjacent mine count > 0
+    Game -> Board : mark_revealed(row, col)
+    Board --> Game : updated cell
+    Game --> UI : updated game state
+    UI --> Player : Displays mine count on cell
+else adjacent mine count == 0
+    Game -> Board : mark_revealed(row, col)
+    Game -> Game : cascade_reveal(row, col)
+    note over Game : Iterative flood-fill:\nadd cell to work queue
+    loop while work queue is not empty
+        Game -> Game : pop next cell from queue
+        loop for each unrevealed, unflagged neighbor
+            Game -> Board : get_cell(neighbor)
+            Board --> Game : neighbor cell data
+            Game -> Board : mark_revealed(neighbor)
+            Board --> Game : updated neighbor
+            alt neighbor adjacent mine count == 0
+                Game -> Game : add neighbor to work queue
+            end
+        end
+    end
+    Game --> UI : updated game state (all cascade cells revealed)
+    UI --> Player : Displays revealed area
+end
+
+@enduml
